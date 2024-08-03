@@ -26,9 +26,9 @@ hypotenuse = sides_arr.max
 
 sides_arr.delete(hypotenuse)
 
-sum_of_short_sides = sides_arr[0] + sides_arr[1]
+sum_of_short_sides = sides_arr[0]**2 + sides_arr[1]**2
 
-if hypotenuse**2 == sum_of_short_sides**2
+if hypotenuse**2 == sum_of_short_sides
     puts "Треугольник прямоугольный"
 elsif a == b || b == c || a == c
     puts "Треугольник равнобедренный"
