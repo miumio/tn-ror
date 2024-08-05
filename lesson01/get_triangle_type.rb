@@ -17,9 +17,17 @@ c = gets.chomp.to_i
 
 sides_arr = [a, b, c]
 
-if a == b && b == c && c == a
-    puts "Треугольник равносторонний"
-    exit
+is_equal_all_sides = sides_arr.uniq.size == 1
+is_equal_two_sides = sides_arr.uniq.size == 2
+
+if is_equal_all_sides
+  puts "Треугольник равносторонний"
+  exit
+end
+
+if is_equal_two_sides
+  puts "Треугольник равнобедренный"
+  exit
 end
 
 hypotenuse = sides_arr.max
@@ -29,9 +37,7 @@ sides_arr.delete(hypotenuse)
 sum_of_short_sides = sides_arr[0]**2 + sides_arr[1]**2
 
 if hypotenuse**2 == sum_of_short_sides
-    puts "Треугольник прямоугольный"
-elsif a == b || b == c || a == c
-    puts "Треугольник равнобедренный"
+  puts "Треугольник прямоугольный"
 else
-    puts "Треугольник общего типа"
+  puts "Треугольник общего типа"
 end
