@@ -7,22 +7,22 @@
 # Может отправлять поезда (по одному за раз, при этом, поезд удаляется из списка поездов, находящихся на станции).
 
 class Station
-    attr_reader :name, :trains
+  attr_reader :name, :trains
 
-    def initialize(name)
-        @name = name
-        @trains = []
-    end
+  def initialize(name)
+    @name = name
+    @trains = []
+  end
 
-    def train(train)
-        @trains << train
-    end
+  def train(train)
+    @trains << train
+  end
 
-    def send_train(train)
-        @trains.delete(train)
-    end
+  def send_train(train)
+    @trains.delete(train)
+  end
 
-    def get_trains_by_type(type)
-        @trains.select { |train| train.type == type }
-    end
+  def get_train_by_type(type)
+    @trains.select { |train| train.type == type }
+  end
 end
