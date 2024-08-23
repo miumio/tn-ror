@@ -23,4 +23,8 @@ class Route
   def remove_point(point)
     @points.delete(point)
   end
+
+  def print
+    @route.each { |point, index| puts "Остановка #{index + 1}: #{point.name}" }
+  end
 end
