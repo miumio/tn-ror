@@ -7,13 +7,13 @@
 # Может выводить список всех станций по-порядку от начальной до конечной
 
 class Route
-  attr_reader :route
+  attr_reader :stations
 
   def initialize(start, finish)
     @start = start
     @finish = finish
     @points = []
-    @route = [@start, @points, @finish]
+    @stations = [@start, @points, @finish]
   end
 
   def add_point(point)
@@ -25,6 +25,6 @@ class Route
   end
 
   def print
-    @route.each { |point, index| puts "Остановка #{index + 1}: #{point.name}" }
+    @stations.each { |station, index| puts "Остановка #{index + 1}: #{station.name}" }
   end
 end

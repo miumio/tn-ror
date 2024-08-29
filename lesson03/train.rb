@@ -1,13 +1,11 @@
 class Train
-  attr_reader :number, :type, :wagons_count, :speed, :current_station, :previous_station, :next_station
+  attr_reader :number, :type, :wagons, :speed, :current_station, :previous_station, :next_station
 
   def initialize(type, wagons)
     @number = rand(1...1000).to_s
     @type = type
-    @wagons_count = wagons
+    @wagons = wagons
     @speed = 0
-    @stations = []
-    @current_station_index = nil
   end
 
   def speed_up(amount)
@@ -24,7 +22,7 @@ class Train
       return
     end
 
-    @wagons_count += 1
+    @wagons += 1
   end
 
   def remove_wagon
@@ -33,12 +31,12 @@ class Train
       return
     end
 
-    if @wagons_count == 0
+    if @wagons == 0
       puts "Ошибка! Вагонов нет"
       return
     end
 
-    @wagons_count -= 1
+    @wagons -= 1
   end
 
   def assign_route(route)
@@ -47,36 +45,32 @@ class Train
       return
     end
 
-    @stations = route
+    @route = route
     @current_station_index = 0
-    update_stations
   end
 
-  def move_forward
-    if @current_station_index.nil? || @current_station_index == @stations.size - 1
-      puts "Ошибка! поезд на конечной станции"
-      return
-    end
-
-    @current_station_index += 1
-    update_stations
+  def current_station
+    @route.stations[current_station_index]
   end
 
-  def move_backward
-    if @current_station_index.nil? || @current_station_index == 0
-      puts "Ошибка! поезд на первой станции"
-      return
-    end
+  def next_station
+    @route.stations[current_station_index + 1]
+  end
 
-    @current_station_index -= 1
-    update_stations
+  def previous_station
+    @current_station_index >= 0 &&
+      @route.stations[current_station_index - 1]
+  end
+
+  def go_next_station
+    @current_station_index += 1 if next_station
+  end
+
+  def go_previous_station
+    @current_station_index -= 1 if previous_station
   end
 
   private
 
-  def update_stations
-    @current_station = @stations[@current_station_index]
-    @previous_station = @current_station_index > 0 ? @stations[@current_station_index - 1] : nil
-    @next_station = @current_station_index < @stations.size - 1 ? @stations[@current_station_index + 1] : nil
-  end
+  attr_reader :route, :current_station_index
 end
