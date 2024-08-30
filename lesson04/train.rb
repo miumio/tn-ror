@@ -72,12 +72,12 @@ class Train
 
   private
   #в привате, так как нужен только при создании экземпляра
-  @count = 0
   STEP = 1
+  @@count = 0
 
   def set_number
-    @number = @count + STEP
-    @count += STEP
+    @number = @@count + STEP
+    @@count += STEP
   end
 
   attr_reader :route, :current_station_index
