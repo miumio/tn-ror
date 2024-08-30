@@ -1,11 +1,11 @@
 class Train
   attr_reader :number, :type, :wagons, :speed, :current_station, :previous_station, :next_station
 
-  def initialize(type, wagons)
+  def initialize(type)
     set_number
     @type = type
-    @wagons = wagons
     @speed = 0
+    @wagons = []
   end
 
   def speed_up(amount)
@@ -16,13 +16,13 @@ class Train
     @speed = 0
   end
 
-  def add_wagon
+  def add_wagon(wagon)
     if @speed > 0
       puts "Ошибка! Остановите поезд перед добавлением вагона"
       return
     end
 
-    @wagons += 1
+    @wagons << wagon if wagon_is_valid?(wagon)
   end
 
   def remove_wagon
@@ -31,16 +31,17 @@ class Train
       return
     end
 
-    if @wagons == 0
+    if @wagons.empty?
       puts "Ошибка! Вагонов нет"
       return
     end
 
-    @wagons -= 1
+    @wagons.pop
   end
 
   def assign_route(route)
-    if route.size < 2
+    #todo наверное странно делать валидацию роута тут??
+    if route.nil? || route.size < 2
       puts "Ошибка! Маршрут должен состоять минимум из двух станций"
       return
     end
@@ -71,13 +72,16 @@ class Train
   end
 
   private
+  
+  def wagon_is_valid?(wagon)
+    wagon.type == self.type
+  end
   #в привате, так как нужен только при создании экземпляра
-  STEP = 1
   @@count = 0
-
+  
   def set_number
-    @number = @@count + STEP
-    @@count += STEP
+    @number = @@count + 1
+    @@count += 1
   end
 
   attr_reader :route, :current_station_index
