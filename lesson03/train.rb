@@ -50,16 +50,16 @@ class Train
   end
 
   def current_station
-    @route.stations[current_station_index]
+    route.stations[current_station_index]
   end
 
   def next_station
-    @route.stations[current_station_index + 1]
+    route.stations[current_station_index + 1]
   end
 
   def previous_station
-    @current_station_index >= 0 &&
-      @route.stations[current_station_index - 1]
+    return if current_station_index == 0
+    route.stations[current_station_index - 1]
   end
 
   def go_next_station
