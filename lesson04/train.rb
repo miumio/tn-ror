@@ -1,6 +1,5 @@
 class Train
   attr_reader :number, :type, :wagons, :speed, :current_station, :previous_station, :next_station
-  @@numbers = 0
 
   def initialize(type, wagons)
     set_number
@@ -72,10 +71,13 @@ class Train
   end
 
   private
+  #в привате, так как нужен только при создании экземпляра
+  @count = 0
+  STEP = 1
 
   def set_number
-    @number = @@numbers + 1
-    @@numbers += 1
+    @number = @count + STEP
+    @count += STEP
   end
 
   attr_reader :route, :current_station_index
