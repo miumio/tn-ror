@@ -8,11 +8,15 @@ require_relative "wagon_passenger"
 require_relative "wagon_cargo"
 
 class Interface
+  attr_reader :trains, :routes, :stations
+
   def initialize
     @wagons = []
     @trains = []
     @routes = []
     @stations = []
+
+    seed
   end
 
   def menu
@@ -29,6 +33,7 @@ class Interface
       puts "7. Отцепить вагон от поезда"
       puts "8. Переместить поезд по маршруту"
       puts "9. Просмотреть список станций"
+      puts "10. Просмотреть список маршрутов"
       # puts "10. Просмотреть список поездов на станции"
       puts "0. Выход"
       puts ""
@@ -53,6 +58,8 @@ class Interface
         when 9
           print_stations
         when 10
+          print_routes
+        when 0
           break
         else
           puts "Некорректный ввод"
@@ -63,7 +70,57 @@ class Interface
   #self methods 
   private
 
-  attr_reader :trains, :routes, :stations
+  def seed
+    puts "Создание станций..."
+    seed_stations
+    puts "Создание поездов..."
+    seed_trains
+    puts "Создание маршрутов..."
+    seed_routes
+    # puts "Создание вагонов..."
+    # seed_wagons
+  end
+
+  def seed_stations
+    stations << Station.new("Санкт-Петербург")
+    stations << Station.new("Москва")
+    stations << Station.new("Новосибирск")
+    stations << Station.new("Казань")
+    stations << Station.new("Eкатеринбург")
+    stations << Station.new("Омск")
+    stations << Station.new("Владивосток")
+    stations << Station.new("Волгоград")
+    stations << Station.new("Краснодар")
+    stations << Station.new("Сочи")
+    stations << Station.new("Ростов-на-Дону")
+    stations << Station.new("Уфа")
+    stations << Station.new("Тюмень")
+    stations << Station.new("Нижний Новгород")
+    stations << Station.new("Красноярск")
+    stations << Station.new("Челябинск")
+    stations << Station.new("Оренбург")
+    stations << Station.new("Самара")
+    stations << Station.new("Калининград")
+    stations << Station.new("Воронеж")
+    stations << Station.new("Белгород")
+    stations << Station.new("Томск")
+    stations << Station.new("Кемерово")
+    stations << Station.new("Саратов")
+  end
+
+  def seed_trains
+    trains << PassengerTrain.new
+    trains << CargoTrain.new
+  end
+
+  def seed_routes
+    routes << Route.new(stations[0], stations[1])
+    routes << Route.new(stations[2], stations[3])
+    routes << Route.new(stations[4], stations[5])
+    routes << Route.new(stations[6], stations[7])
+    routes << Route.new(stations[8], stations[9])
+  end
+
 
   def create_station
     puts "Введите название станции:"
@@ -89,11 +146,11 @@ class Interface
 
   def create_route
     puts "Выберите начальную станцию:"
-    from = gets.chomp
+    from = gets.chomp.to_i
     puts "Выберите конечную станцию:"
-    to = gets.chomp
+    to = gets.chomp.to_i
     routes << Route.new(stations[from], stations[to])
-    puts "Маршрут #{from} - #{to} создан"
+    puts "Маршрут #{stations[from].name} - #{stations[to].name} создан"
   end
 
   def route_actions
@@ -206,5 +263,4 @@ class Interface
 
   def move_train
   end
-
 end
