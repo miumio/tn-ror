@@ -1,7 +1,11 @@
-require_relative 'station'
-require_relative 'train'
-require_relative 'route'
-require_relative 'wagon'
+require_relative "station"
+require_relative "train"
+require_relative "route"
+require_relative "train_passenger"
+require_relative "train_cargo"
+require_relative "wagon"
+require_relative "wagon_passenger"
+require_relative "wagon_cargo"
 
 class Interface
   def initialize
@@ -12,7 +16,9 @@ class Interface
   end
 
   def menu
+    puts "Программа управления железнодорожным портом"
     loop do
+      puts ""
       puts "Выберите действие:"
       puts "1. Создать станцию"
       puts "2. Создать поезд"
@@ -22,8 +28,10 @@ class Interface
       puts "6. Добавить вагон к поезду"
       puts "7. Отцепить вагон от поезда"
       puts "8. Переместить поезд по маршруту"
-      puts "9. Просмотреть список станций и список поездов на станции"
-      puts "10. Выход"
+      puts "9. Просмотреть список станций"
+      # puts "10. Просмотреть список поездов на станции"
+      puts "0. Выход"
+      puts ""
       choice = gets.chomp.to_i
       case choice
         when 1
@@ -43,7 +51,7 @@ class Interface
         when 8
           move_train
         when 9
-          show_stations_and_trains
+          print_stations
         when 10
           break
         else
@@ -69,12 +77,14 @@ class Interface
     puts "1. Пассажирский"
     puts "2. Грузовой"
     type = gets.chomp.to_i
-    if type == 1
-      trains << PassengerTrain.new
-    else
-      trains << CargoTrain.new
+    case type
+      when 1
+        train = PassengerTrain.new
+      when 2
+        train = CargoTrain.new
     end
-    puts "Поезд #{number} создан"
+    puts "Поезд #{train.number} создан"
+    trains << train
   end
 
   def create_route
@@ -103,6 +113,7 @@ class Interface
   end
 
   def print_routes
+    puts "Список маршрутов:"
     routes.each_with_index do |route, i| 
       puts "#{i}: #{route.stations.first.name} - #{route.stations.last.name}"
     end
@@ -110,7 +121,15 @@ class Interface
 
     
   def print_route_stations(route)
+    puts "Список станций в маршруте:"
     route.stations.each_with_index do |station, i|
+      puts "#{i}: #{station.name}"
+    end
+  end
+
+  def print_stations
+    puts "Список станций:"
+    stations.each_with_index do |station, i|
       puts "#{i}: #{station.name}"
     end
   end
@@ -186,9 +205,6 @@ class Interface
   end
 
   def move_train
-  end
-
-  def show_stations_and_trains
   end
 
 end

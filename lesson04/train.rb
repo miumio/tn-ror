@@ -78,6 +78,7 @@ class Train
   end
   #в привате, так как нужен только при создании экземпляра
   @@count = 0
+  @number
   
   def set_number
     @number = @@count + 1

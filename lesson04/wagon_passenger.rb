@@ -1,5 +1,5 @@
 require_relative "wagon"
-require_relative 'wagon_types'
+require_relative 'train_types'
 
 class PassengerWagon < Wagon
   def initialize
