@@ -82,30 +82,16 @@ class Interface
   end
 
   def seed_stations
-    stations << Station.new("Санкт-Петербург")
-    stations << Station.new("Москва")
-    stations << Station.new("Новосибирск")
-    stations << Station.new("Казань")
-    stations << Station.new("Eкатеринбург")
-    stations << Station.new("Омск")
-    stations << Station.new("Владивосток")
-    stations << Station.new("Волгоград")
-    stations << Station.new("Краснодар")
-    stations << Station.new("Сочи")
-    stations << Station.new("Ростов-на-Дону")
-    stations << Station.new("Уфа")
-    stations << Station.new("Тюмень")
-    stations << Station.new("Нижний Новгород")
-    stations << Station.new("Красноярск")
-    stations << Station.new("Челябинск")
-    stations << Station.new("Оренбург")
-    stations << Station.new("Самара")
-    stations << Station.new("Калининград")
-    stations << Station.new("Воронеж")
-    stations << Station.new("Белгород")
-    stations << Station.new("Томск")
-    stations << Station.new("Кемерово")
-    stations << Station.new("Саратов")
+    station_names = [
+      "Санкт-Петербург", "Москва", "Новосибирск", "Казань", "Eкатеринбург", "Омск", "Владивосток",
+      "Волгоград", "Краснодар", "Сочи", "Ростов-на-Дону", "Уфа", "Тюмень", "Нижний Новгород",
+      "Красноярск", "Челябинск", "Оренбург", "Самара", "Калининград", "Воронеж", "Белгород",
+      "Томск", "Кемерово", "Саратов"
+    ]
+
+    station_names.each do |name|
+      stations << Station.new(name)
+    end
   end
 
   def seed_trains
@@ -114,11 +100,11 @@ class Interface
   end
 
   def seed_routes
-    routes << Route.new(stations[0], stations[1])
-    routes << Route.new(stations[2], stations[3])
-    routes << Route.new(stations[4], stations[5])
-    routes << Route.new(stations[6], stations[7])
-    routes << Route.new(stations[8], stations[9])
+    5.times do
+      start_index = rand(0...stations.size - 1)
+      finish_index = rand(start_index + 1...stations.size)
+      routes << Route.new(stations[start_index], stations[finish_index])
+    end
   end
 
 
