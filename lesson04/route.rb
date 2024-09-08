@@ -13,18 +13,25 @@ class Route
     @start = start
     @finish = finish
     @points = []
-    @stations = [@start, @points, @finish]
+    @stations = [@start, @points, @finish].flatten
   end
 
-  def add_point(point)
+  def add_station(point)
+    return if @stations.detect { |station| station.name == point.name }
+    return if @points.detect { |station| station.name == point.name }
     @points << point
+    puts "Станция #{point.name} добавлена в маршрут"
   end
 
-  def remove_point(point)
+  def remove_station(point)
     @points.delete(point)
   end
 
   def print
-    @stations.each { |station, index| puts "Остановка #{index + 1}: #{station.name}" }
+    if @points.empty?
+      puts "#{@start.name} - #{@finish.name}"
+    else
+      puts "#{@start.name} - #{@points.map(&:name).join(' - ')} - #{@finish.name}"
+    end
   end
 end
