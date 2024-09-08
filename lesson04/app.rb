@@ -32,7 +32,7 @@ class App
       puts "8. Переместить поезд по маршруту"
       puts "9. Просмотреть список станций"
       puts "10. Просмотреть список маршрутов"
-      # puts "10. Просмотреть список поездов на станции"
+      puts "11. Просмотреть список поездов на станции"
       puts "0. Выход"
       puts ""
       choice = gets.chomp.to_i
@@ -57,6 +57,8 @@ class App
           print_stations
         when 10
           print_routes
+        when 11
+          print_station_trains
         when 0
           break
         else
@@ -138,10 +140,7 @@ class App
   end
 
   def route_actions
-    puts "Выберите маршрут:"
-    print_routes
-    choice = gets.chomp.to_i
-    route = routes[choice]
+    route = choose_route
     puts "Вы выбрали маршрут: "
     route.print
 
@@ -197,24 +196,32 @@ class App
   end
 
   def assign_route
-    puts "Выберите маршрут:"
-    print_routes
-    route = gets.chomp.to_i
-
     train = choose_train
-    train.assign_route(routes[route])
+    route = choose_route
+
+    train.assign_route(route)
+    puts "Поезд #{train.number} назначен маршруту:"
+    route.print
   end
 
   def choose_train
     puts 'Выберите поезд:'
-    trains.each_with_index { |train, index| puts "#{index}: #{train.number}" }
+    trains.each_with_index { |train, index| puts "поезд№ #{train.number}(#{train.type})" }
     input = gets.to_i
-    return if input < 0 || input >= trains.size
-    trains[input]
+    train = trains.find { |train| train.number == input }
+    train
   end
 
-  def add_wagon(wagon = nil)
-    choose_train
+  def choose_route
+    puts "Выберите маршрут:"
+    print_routes
+    choice = gets.chomp.to_i
+    route = routes[choice]
+    route
+  end
+
+  def add_wagon()
+    train = choose_train
     puts "Выберите вагон:"
     puts "1. Пассажирский"
     puts "2. Грузовой"
@@ -227,14 +234,29 @@ class App
         wagon = CargoWagon.new
     end
 
-    trains[train].add_wagon(wagon)
+    train.add_wagon(wagon)
   end
 
   def remove_wagon
-    train =choose_train
-    trains[train].remove_wagon
+    train = choose_train
+    train.remove_wagon
   end
 
   def move_train
+    train = choose_train
+    puts "Выберите направление:"
+    puts "1. Вперед"
+    puts "2. Назад"
+    direction = gets.chomp.to_i
+    train.go_next_station if direction == 1
+    train.go_previous_station if direction == 2
+  end
+
+  def print_station_trains
+    puts "Выберите станцию:"
+    print_stations
+    station_index = gets.chomp.to_i
+    station = @stations[station_index]
+    station.trains.each_with_index { |train, index| puts "поезд№ #{train.number}(#{train.type})" }
   end
 end

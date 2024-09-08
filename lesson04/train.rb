@@ -40,12 +40,6 @@ class Train
   end
 
   def assign_route(route)
-    #todo наверное странно делать валидацию роута тут??
-    if route.nil? || route.size < 2
-      puts "Ошибка! Маршрут должен состоять минимум из двух станций"
-      return
-    end
-
     @route = route
     @current_station_index = 0
   end
