@@ -20,55 +20,50 @@ class App
 
   def menu
     loop do
-      puts ""
-      puts "Выберите действие:"
-      puts "1. Создать станцию"
-      puts "2. Создать поезд"
-      puts "3. Создать маршрут"
-      puts "4. Добавить/удалить станцию в маршруте"
-      puts "5. Назначить маршрут поезду"
-      puts "6. Добавить вагон к поезду"
-      puts "7. Отцепить вагон от поезда"
-      puts "8. Переместить поезд по маршруту"
-      puts "9. Просмотреть список станций"
-      puts "10. Просмотреть список маршрутов"
-      puts "11. Просмотреть список поездов на станции"
-      puts "0. Выход"
-      puts ""
+      print_menu
       choice = gets.chomp.to_i
-      case choice
-        when 1
-          create_station
-        when 2
-          create_train
-        when 3
-          create_route
-        when 4
-          route_actions
-        when 5
-          assign_route
-        when 6
-          add_wagon
-        when 7
-          remove_wagon
-        when 8
-          move_train
-        when 9
-          print_stations
-        when 10
-          print_routes
-        when 11
-          print_station_trains
-        when 0
-          break
-        else
-          puts "Некорректный ввод"
-      end
+      menu_actions(choice)
     end
   end
 
   #self methods 
   private
+
+  def menu_actions(choice)
+    case choice
+      when 1 then create_station
+      when 2 then create_train
+      when 3 then create_route
+      when 4 then route_actions
+      when 5 then assign_route
+      when 6 then add_wagon
+      when 7 then remove_wagon
+      when 8 then move_train
+      when 9 then print_stations
+      when 10 then print_routes
+      when 11 then print_station_trains
+    else
+      puts "Некорректный ввод"
+    end
+  end
+
+  def print_menu
+    puts ""
+    puts "Выберите действие:"
+    puts "1. Создать станцию"
+    puts "2. Создать поезд"
+    puts "3. Создать маршрут"
+    puts "4. Добавить/удалить станцию в маршруте"
+    puts "5. Назначить маршрут поезду"
+    puts "6. Добавить вагон к поезду"
+    puts "7. Отцепить вагон от поезда"
+    puts "8. Переместить поезд по маршруту"
+    puts "9. Просмотреть список станций"
+    puts "10. Просмотреть список маршрутов"
+    puts "11. Просмотреть список поездов на станции"
+    puts "0. Выход"
+    puts ""
+  end
 
   def seed
     puts "Создание станций..."
