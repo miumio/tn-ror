@@ -10,6 +10,57 @@ require_relative "wagon_cargo"
 class App
   attr_reader :trains, :routes, :stations
 
+  MENU = [
+    {
+      name: "Создать станцию",
+      action: :create_station
+    },
+    {
+      name: "Создать поезд",
+      action: :create_train
+    },
+    {
+      name: "Создать маршрут",
+      action: :create_route
+    },
+    {
+      name: "Добавить/удалить станцию в маршруте",
+      action: :route_actions
+    },
+    {
+      name: "Назначить маршрут поезду",
+      action: :assign_route
+    },
+    {
+      name: "Добавить вагон к поезду",
+      action: :add_wagon
+    },
+    {
+      name: "Отцепить вагон от поезда",
+      action: :remove_wagon
+    },
+    {
+      name: "Переместить поезд по маршруту",
+      action: :move_train
+    },
+    {
+      name: "Просмотреть список станций",
+      action: :print_stations
+    },
+    {
+      name: "Просмотреть список маршрутов",
+      action: :print_routes
+    },
+    {
+      name: "Просмотреть список поездов на станции",
+      action: :print_station_trains
+    },
+    {
+      name: "Выход",
+      action: :exit
+    }
+  ]
+
   def initialize
     @wagons = []
     @trains = []
@@ -30,40 +81,12 @@ class App
   private
 
   def menu_actions(choice)
-    case choice
-      when 1 then create_station
-      when 2 then create_train
-      when 3 then create_route
-      when 4 then route_actions
-      when 5 then assign_route
-      when 6 then add_wagon
-      when 7 then remove_wagon
-      when 8 then move_train
-      when 9 then print_stations
-      when 10 then print_routes
-      when 11 then print_station_trains
-      when 0 then exit
-    else
-      puts "Некорректный ввод"
-    end
+    action = MENU[choice - 1][:action]
+    send(action)
   end
 
   def print_menu
-    puts ""
-    puts "Выберите действие:"
-    puts "1. Создать станцию"
-    puts "2. Создать поезд"
-    puts "3. Создать маршрут"
-    puts "4. Добавить/удалить станцию в маршруте"
-    puts "5. Назначить маршрут поезду"
-    puts "6. Добавить вагон к поезду"
-    puts "7. Отцепить вагон от поезда"
-    puts "8. Переместить поезд по маршруту"
-    puts "9. Просмотреть список станций"
-    puts "10. Просмотреть список маршрутов"
-    puts "11. Просмотреть список поездов на станции"
-    puts "0. Выход"
-    puts ""
+    MENU.each_with_index { |item, i| puts "#{i + 1}. #{item[:name]}" }
   end
 
   def seed
@@ -73,8 +96,6 @@ class App
     seed_trains
     puts "Создание маршрутов..."
     seed_routes
-    # puts "Создание вагонов..."
-    # seed_wagons
   end
 
   def seed_stations
