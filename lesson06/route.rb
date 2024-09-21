@@ -7,6 +7,7 @@ class Route
   def initialize(start, finish)
     @start = start
     @finish = finish
+    validate!
     @points = []
     @stations = [@start, @points, @finish].flatten
     register_instance
@@ -16,7 +17,6 @@ class Route
     return if @stations.detect { |station| station.name == point.name }
     return if @points.detect { |station| station.name == point.name }
     @points << point
-    puts "Станция #{point.name} добавлена в маршрут"
   end
 
   def remove_station(point)
@@ -29,5 +29,11 @@ class Route
     else
       puts "#{@start.name} - #{@points.map(&:name).join(' - ')} - #{@finish.name}"
     end
+  end
+
+  private
+
+  def validate!
+    raise "Начальная станция не может быть конечной" if @start == @finish
   end
 end

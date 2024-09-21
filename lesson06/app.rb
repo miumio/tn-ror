@@ -136,7 +136,7 @@ class App
         puts "Введите название станции:"
         name = gets.chomp
         new_station = Station.new(name)
-      break
+        break
       rescue RuntimeError => e
         puts e
       end
@@ -174,10 +174,19 @@ class App
   end
 
   def create_route
-    puts "Выберите начальную станцию:"
-    from = gets.chomp.to_i
-    puts "Выберите конечную станцию:"
-    to = gets.chomp.to_i
+    from = nil
+    to = nil
+    loop do
+      begin
+        puts "Выберите начальную станцию:"
+        from = gets.chomp.to_i
+        puts "Выберите конечную станцию:"
+        to = gets.chomp.to_i
+        break
+      rescue RuntimeError => e
+        puts e
+      end
+    end
     routes << Route.new(stations[from], stations[to])
     puts "Маршрут #{stations[from].name} - #{stations[to].name} создан"
   end
