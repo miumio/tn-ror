@@ -14,8 +14,8 @@ class Station
     @name = name
     @trains = []
     @@all << self
-    register_instance
     validate!
+    register_instance
   end
 
   def train(train)
@@ -40,10 +40,6 @@ class Station
   protected
 
   def validate!
-    raise "Название станции не может быть пустым" if name.empty?
     raise "Название станции должно содержать больше двух символов" if name.length < 2
-
-    rescue StandardError => e
-      print_error(e)
   end
 end

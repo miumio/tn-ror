@@ -130,10 +130,20 @@ class App
 
 
   def create_station
-    puts "Введите название станции:"
-    name = gets.chomp
-    stations << Station.new(name)
-    puts "Станция #{name} создана"
+    new_station = nil
+    loop do
+      begin
+        puts "Введите название станции:"
+        name = gets.chomp
+        new_station = Station.new(name)
+      break
+      rescue RuntimeError => e
+        puts e
+      end
+    end
+    
+    puts "Станция #{new_station.name} создана"
+    stations << new_station
   end
 
   def create_train
