@@ -52,6 +52,10 @@ class App
       action: :print_routes
     },
     {
+      name: "Просмотреть список поездов",
+      action: :print_trains
+    },
+    {
       name: "Просмотреть список поездов на станции",
       action: :print_station_trains
     },
@@ -112,8 +116,8 @@ class App
   end
 
   def seed_trains
-    trains << PassengerTrain.new
-    trains << CargoTrain.new
+    trains << PassengerTrain.new("e33-22")
+    trains << CargoTrain.new("e33-22")
   end
 
   def seed_routes
@@ -137,12 +141,24 @@ class App
     puts "1. Пассажирский"
     puts "2. Грузовой"
     type = gets.chomp.to_i
-    case type
-      when 1
-        train = PassengerTrain.new
-      when 2
-        train = CargoTrain.new
+
+    train = nil
+    loop do
+      begin
+        puts "Введите номер поезда:"
+        number = gets.chomp
+        case type
+          when 1
+            train = PassengerTrain.new(number)
+          when 2
+            train = CargoTrain.new(number)
+        end
+        break
+      rescue RuntimeError => e
+        puts e
+      end
     end
+
     puts "Поезд #{train.number} создан"
     trains << train
   end
@@ -195,6 +211,10 @@ class App
     end
   end
 
+  def print_trains
+    trains.each_with_index { |train, index| puts "поезд№ #{train.number}(#{train.type})" }
+  end
+
   def add_station_to_route(route)  
     puts "Выберите станцию:"
     print_stations
@@ -223,7 +243,7 @@ class App
 
   def choose_train
     puts 'Выберите поезд:'
-    trains.each_with_index { |train, index| puts "поезд№ #{train.number}(#{train.type})" }
+    print_trains
     input = gets.to_i
     train = trains.find { |train| train.number == input }
     train

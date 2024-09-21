@@ -15,8 +15,8 @@ class Train
     @@all.find { |train| train.number == number }
   end
 
-  def initialize(type)
-    set_number
+  def initialize(type, number)
+    @number = number
     @type = type
     @speed = 0
     @wagons = []
@@ -94,7 +94,6 @@ class Train
   @number
 
   def validate!
-    raise "Номер поезда не может быть пустым" if number.nil?
     raise "Неверный формат номера поезда" if number !~ NUMBER_REGEXP
   end
   
@@ -102,10 +101,5 @@ class Train
     wagon.type == self.type
   end
   
-  def set_number
-    @number = @@count + 1
-    @@count += 1
-  end
-
   attr_reader :route, :current_station_index
 end

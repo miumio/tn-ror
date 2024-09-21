@@ -15,6 +15,7 @@ class Station
     @trains = []
     @@all << self
     register_instance
+    validate!
   end
 
   def train(train)
@@ -27,5 +28,22 @@ class Station
 
   def get_train_by_type(type)
     @trains.select { |train| train.type == type }
+  end
+
+  def valid?
+    validate!
+    true
+  rescue RuntimeError
+    false
+  end
+
+  protected
+
+  def validate!
+    raise "Название станции не может быть пустым" if name.empty?
+    raise "Название станции должно содержать больше двух символов" if name.length < 2
+
+    rescue StandardError => e
+      print_error(e)
   end
 end
