@@ -1,9 +1,11 @@
 require './modules/manufacturer'
 require './modules/instance_counter'
+require './modules/validate'
 
 class Train
   include Manufacturer
   include InstanceCounter
+  include Validate
 
   NUMBER_REGEXP = /^[a-zа-я0-9]{3}-?[a-zа-я0-9]{2}$/
 
@@ -80,13 +82,6 @@ class Train
 
   def go_previous_station
     @current_station_index -= 1 if previous_station
-  end
-
-  def validate?
-    validate!
-    true
-  rescue
-    false
   end
 
   private

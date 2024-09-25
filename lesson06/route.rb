@@ -1,7 +1,9 @@
 require './modules/instance_counter'
+require './modules/validate'
 
 class Route
   include InstanceCounter
+  include Validate
   attr_reader :stations
 
   def initialize(start, finish)

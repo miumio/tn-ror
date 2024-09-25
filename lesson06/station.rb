@@ -1,7 +1,9 @@
 require './modules/instance_counter'
+require './modules/validate'
 
 class Station
   include InstanceCounter
+  include Validate
   attr_reader :name, :trains
 
   @@all = []
@@ -28,13 +30,6 @@ class Station
 
   def get_train_by_type(type)
     @trains.select { |train| train.type == type }
-  end
-
-  def valid?
-    validate!
-    true
-  rescue RuntimeError
-    false
   end
 
   protected
