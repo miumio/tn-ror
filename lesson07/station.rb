@@ -32,6 +32,10 @@ class Station
     @trains.select { |train| train.type == type }
   end
 
+  def trains_block(&b)
+    @trains.each(&b)
+  end
+
   protected
 
   def validate!

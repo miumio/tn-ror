@@ -84,6 +84,10 @@ class Train
     @current_station_index -= 1 if previous_station
   end
 
+  def wagon_block(&b)
+    @wagons.each(&b)
+  end
+
   private
   @@count = 0
   @number
