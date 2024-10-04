@@ -2,25 +2,21 @@ require_relative "wagon"
 require_relative 'train_types'
 
 class PassengerWagon < Wagon
-  attr_reader :seats 
+  attr_reader :used_seats, :seats
   DEFAULT_SEATS = 116
 
   def initialize(seats = DEFAULT_SEATS)
     super(TRAIN_TYPES[:passenger])
-    @seats_count = seats
     @seats = seats
+    @used_seats = 0
   end
 
-  def take_seat
+  def take_seat(count = 1)
     return if @seats == 0
-    @seats -= 1
+    @used_seats += count
   end
 
   def free_seats
-    @seats
-  end
-
-  def occupied_seats
-    @seats_count - @seats
+    @seats - @used_seats
   end
 end

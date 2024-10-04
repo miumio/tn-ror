@@ -64,6 +64,10 @@ class App
       action: :print_train_wagons
     },
     {
+      name: "Занять место или объем в вагоне",
+      action: :use_wagon
+    },
+    {
       name: "Выход",
       action: :exit
     }
@@ -337,19 +341,39 @@ class App
     train = choose_train
     
     puts "Список вагонов поезда ##{train.number}(#{train.type}):"
+    if train.wagons.empty?
+      puts "Вагонов нет"
+      return
+    end
     train.wagon_block do |wagon|
       case wagon
       when PassengerWagon
         puts "    Тип вагона №#{wagon.number}: пассажирский"
         puts "         Общее Количество мест: #{wagon.seats}"
         puts "         Количество свободных мест: #{wagon.free_seats}"
-        puts "         Количество занятых мест: #{wagon.occupied_seats}"
+        puts "         Количество занятых мест: #{wagon.used_seats}"
       when CargoWagon
         puts "    Тип вагона №#{wagon.number}: грузовой"
         puts "         Общий объем вагона: #{wagon.volume}"
         puts "         Свободный объем вагона: #{wagon.free_volume}"
         puts "         Занятый объем вагона: #{wagon.used_volume}"
       end
+    end
+    train
+  end
+
+  def use_wagon
+    train = print_train_wagons
+    puts "Выберите вагон:"
+    choice = gets.chomp
+    wagon = train.wagons.find { |w| w.number == choice }
+    case wagon
+    when PassengerWagon
+      puts "Сколько мест вы хотите занять?"
+      wagon.take_seat(gets.chomp.to_i)
+    when CargoWagon
+      puts "Сколько объема вы хотите занять?"
+      wagon.take_volume(gets.chomp.to_i)
     end
   end
 end
