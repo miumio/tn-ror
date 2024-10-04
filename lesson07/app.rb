@@ -281,6 +281,14 @@ class App
     route
   end
 
+  def choose_station
+    puts "Выберите станцию:"
+    print_stations
+    choice = gets.chomp.to_i
+    station = stations[choice]
+    station
+  end
+
   def add_wagon()
     train = choose_train
     puts "Выберите вагон:"
@@ -318,11 +326,11 @@ class App
   end
 
   def print_station_trains
-    puts "Выберите станцию:"
-    print_stations
-    station_index = gets.chomp.to_i
-    station = @stations[station_index]
-    station.trains.each_with_index { |train, index| puts "поезд№ #{train.number}(#{train.type})" }
+    station = choose_station
+    puts "Список поездов на станции #{station.name}:"
+    station.trains_block do |train|
+      puts "поезд№ #{train.number}(#{train.type})"
+    end
   end
 
   def print_train_wagons
@@ -332,11 +340,15 @@ class App
     train.wagon_block do |wagon|
       case wagon
       when PassengerWagon
-        puts "    Тип вагона: пассажирский"
-        puts "    Количество мест: #{wagon.seats}"
+        puts "    Тип вагона №#{wagon.number}: пассажирский"
+        puts "         Общее Количество мест: #{wagon.seats}"
+        puts "         Количество свободных мест: #{wagon.free_seats}"
+        puts "         Количество занятых мест: #{wagon.occupied_seats}"
       when CargoWagon
-        puts "    Тип вагона: грузовой"
-        puts "    Объем вагона: #{wagon.volume}"
+        puts "    Тип вагона №#{wagon.number}: грузовой"
+        puts "         Общий объем вагона: #{wagon.volume}"
+        puts "         Свободный объем вагона: #{wagon.free_volume}"
+        puts "         Занятый объем вагона: #{wagon.used_volume}"
       end
     end
   end
