@@ -60,6 +60,10 @@ class App
       action: :print_station_trains
     },
     {
+      name: "Просмотреть количество вагонов у поезда",
+      action: :print_train_wagons
+    },
+    {
       name: "Выход",
       action: :exit
     }
@@ -264,7 +268,8 @@ class App
     puts 'Выберите поезд:'
     print_trains
     input = gets.to_i
-    train = trains.find { |train| train.number == input }
+    # train = trains.find { |train| train.number == input }
+    train = trains[input - 1]
     train
   end
 
@@ -285,9 +290,13 @@ class App
 
     case type
       when 1
-        wagon = PassengerWagon.new
+        puts "Сколько мест в вагоне?"
+        seats = gets.chomp.to_i
+        wagon = PassengerWagon.new(seats)
       when 2
-        wagon = CargoWagon.new
+        puts "Укажите объем в вагоне"
+        volume = gets.chomp.to_i
+        wagon = CargoWagon.new(volume)
     end
 
     train.add_wagon(wagon)
@@ -314,5 +323,21 @@ class App
     station_index = gets.chomp.to_i
     station = @stations[station_index]
     station.trains.each_with_index { |train, index| puts "поезд№ #{train.number}(#{train.type})" }
+  end
+
+  def print_train_wagons
+    train = choose_train
+    
+    puts "Список вагонов поезда ##{train.number}(#{train.type}):"
+    train.wagon_block do |wagon|
+      case wagon
+      when PassengerWagon
+        puts "    Тип вагона: пассажирский"
+        puts "    Количество мест: #{wagon.seats}"
+      when CargoWagon
+        puts "    Тип вагона: грузовой"
+        puts "    Объем вагона: #{wagon.volume}"
+      end
+    end
   end
 end
