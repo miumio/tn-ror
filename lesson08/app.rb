@@ -1,74 +1,74 @@
-require_relative "station"
-require_relative "train"
-require_relative "route"
-require_relative "train_passenger"
-require_relative "train_cargo"
-require_relative "wagon"
-require_relative "wagon_passenger"
-require_relative "wagon_cargo"
+require_relative 'station'
+require_relative 'train'
+require_relative 'route'
+require_relative 'train_passenger'
+require_relative 'train_cargo'
+require_relative 'wagon'
+require_relative 'wagon_passenger'
+require_relative 'wagon_cargo'
 
 class App
   attr_reader :trains, :routes, :stations
 
   MENU = [
     {
-      name: "Создать станцию",
+      name: 'Создать станцию',
       action: :create_station
     },
     {
-      name: "Создать поезд",
+      name: 'Создать поезд',
       action: :create_train
     },
     {
-      name: "Создать маршрут",
+      name: 'Создать маршрут',
       action: :create_route
     },
     {
-      name: "Добавить/удалить станцию в маршруте",
+      name: 'Добавить/удалить станцию в маршруте',
       action: :route_actions
     },
     {
-      name: "Назначить маршрут поезду",
+      name: 'Назначить маршрут поезду',
       action: :assign_route
     },
     {
-      name: "Добавить вагон к поезду",
+      name: 'Добавить вагон к поезду',
       action: :add_wagon
     },
     {
-      name: "Отцепить вагон от поезда",
+      name: 'Отцепить вагон от поезда',
       action: :remove_wagon
     },
     {
-      name: "Переместить поезд по маршруту",
+      name: 'Переместить поезд по маршруту',
       action: :move_train
     },
     {
-      name: "Просмотреть список станций",
+      name: 'Просмотреть список станций',
       action: :print_stations
     },
     {
-      name: "Просмотреть список маршрутов",
+      name: 'Просмотреть список маршрутов',
       action: :print_routes
     },
     {
-      name: "Просмотреть список поездов",
+      name: 'Просмотреть список поездов',
       action: :print_trains
     },
     {
-      name: "Просмотреть список поездов на станции",
+      name: 'Просмотреть список поездов на станции',
       action: :print_station_trains
     },
     {
-      name: "Просмотреть количество вагонов у поезда",
+      name: 'Просмотреть количество вагонов у поезда',
       action: :print_train_wagons
     },
     {
-      name: "Занять место или объем в вагоне",
+      name: 'Занять место или объем в вагоне',
       action: :use_wagon
     },
     {
-      name: "Выход",
+      name: 'Выход',
       action: :exit
     }
   ]
@@ -89,7 +89,7 @@ class App
     end
   end
 
-  #self methods 
+  # self methods
   private
 
   def menu_actions(choice)
@@ -102,20 +102,20 @@ class App
   end
 
   def seed
-    puts "Создание станций..."
+    puts 'Создание станций...'
     seed_stations
-    puts "Создание поездов..."
+    puts 'Создание поездов...'
     seed_trains
-    puts "Создание маршрутов..."
+    puts 'Создание маршрутов...'
     seed_routes
   end
 
   def seed_stations
     station_names = [
-      "Санкт-Петербург", "Москва", "Новосибирск", "Казань", "Eкатеринбург", "Омск", "Владивосток",
-      "Волгоград", "Краснодар", "Сочи", "Ростов-на-Дону", "Уфа", "Тюмень", "Нижний Новгород",
-      "Красноярск", "Челябинск", "Оренбург", "Самара", "Калининград", "Воронеж", "Белгород",
-      "Томск", "Кемерово", "Саратов"
+      'Санкт-Петербург', 'Москва', 'Новосибирск', 'Казань', 'Eкатеринбург', 'Омск', 'Владивосток',
+      'Волгоград', 'Краснодар', 'Сочи', 'Ростов-на-Дону', 'Уфа', 'Тюмень', 'Нижний Новгород',
+      'Красноярск', 'Челябинск', 'Оренбург', 'Самара', 'Калининград', 'Воронеж', 'Белгород',
+      'Томск', 'Кемерово', 'Саратов'
     ]
 
     station_names.each do |name|
@@ -124,8 +124,8 @@ class App
   end
 
   def seed_trains
-    trains << PassengerTrain.new("e33-22")
-    trains << CargoTrain.new("e33-22")
+    trains << PassengerTrain.new('e33-22')
+    trains << CargoTrain.new('e33-22')
   end
 
   def seed_routes
@@ -136,45 +136,40 @@ class App
     end
   end
 
-
   def create_station
     new_station = nil
     loop do
-      begin
-        puts "Введите название станции:"
-        name = gets.chomp
-        new_station = Station.new(name)
-        break
-      rescue RuntimeError => e
-        puts e
-      end
+      puts 'Введите название станции:'
+      name = gets.chomp
+      new_station = Station.new(name)
+      break
+    rescue RuntimeError => e
+      puts e
     end
-    
+
     puts "Станция #{new_station.name} создана"
     stations << new_station
   end
 
   def create_train
-    puts "Выберите тип поезда:"
-    puts "1. Пассажирский"
-    puts "2. Грузовой"
+    puts 'Выберите тип поезда:'
+    puts '1. Пассажирский'
+    puts '2. Грузовой'
     type = gets.chomp.to_i
 
     train = nil
     loop do
-      begin
-        puts "Введите номер поезда:"
-        number = gets.chomp
-        case type
-          when 1
-            train = PassengerTrain.new(number)
-          when 2
-            train = CargoTrain.new(number)
-        end
-        break
-      rescue RuntimeError => e
-        puts e
+      puts 'Введите номер поезда:'
+      number = gets.chomp
+      case type
+      when 1
+        train = PassengerTrain.new(number)
+      when 2
+        train = CargoTrain.new(number)
       end
+      break
+    rescue RuntimeError => e
+      puts e
     end
 
     puts "Поезд #{train.number} создан"
@@ -185,15 +180,13 @@ class App
     from = nil
     to = nil
     loop do
-      begin
-        puts "Выберите начальную станцию:"
-        from = gets.chomp.to_i
-        puts "Выберите конечную станцию:"
-        to = gets.chomp.to_i
-        break
-      rescue RuntimeError => e
-        puts e
-      end
+      puts 'Выберите начальную станцию:'
+      from = gets.chomp.to_i
+      puts 'Выберите конечную станцию:'
+      to = gets.chomp.to_i
+      break
+    rescue RuntimeError => e
+      puts e
     end
     routes << Route.new(stations[from], stations[to])
     puts "Маршрут #{stations[from].name} - #{stations[to].name} создан"
@@ -201,34 +194,33 @@ class App
 
   def route_actions
     route = choose_route
-    puts "Вы выбрали маршрут: "
+    puts 'Вы выбрали маршрут: '
     route.print
 
-    puts "Выберите действие:"
-    puts "1. Добавить станцию"
-    puts "2. Удалить станцию"
+    puts 'Выберите действие:'
+    puts '1. Добавить станцию'
+    puts '2. Удалить станцию'
     action = gets.chomp.to_i
-  
+
     case action
-      when 1
-        add_station_to_route(route)
-      when 2
-        remove_station_from_route(route)
-      else
-        puts "Некорректный ввод"
+    when 1
+      add_station_to_route(route)
+    when 2
+      remove_station_from_route(route)
+    else
+      puts 'Некорректный ввод'
     end
   end
 
   def print_routes
-    routes.each_with_index do |route, i| 
+    routes.each_with_index do |route, i|
       puts "#{i}: "
       puts "#{route.print}"
     end
   end
 
-    
   def print_route_stations(route)
-    puts "Список станций в маршруте:"
+    puts 'Список станций в маршруте:'
     route.print
   end
 
@@ -239,11 +231,11 @@ class App
   end
 
   def print_trains
-    trains.each_with_index { |train, index| puts "поезд№ #{train.number}(#{train.type})" }
+    trains.each_with_index { |train, _index| puts "поезд№ #{train.number}(#{train.type})" }
   end
 
-  def add_station_to_route(route)  
-    puts "Выберите станцию:"
+  def add_station_to_route(route)
+    puts 'Выберите станцию:'
     print_stations
     station_index = gets.chomp.to_i
     station = @stations[station_index]
@@ -252,10 +244,10 @@ class App
   end
 
   def remove_station_from_route(route)
-    puts "Выберите станцию:"
+    puts 'Выберите станцию:'
     print_stations
     station_index = gets.chomp.to_i
-    station = @stations[station_index]  
+    station = @stations[station_index]
     route.remove_station(station)
   end
 
@@ -273,42 +265,39 @@ class App
     print_trains
     input = gets.to_i
     # train = trains.find { |train| train.number == input }
-    train = trains[input - 1]
-    train
+    trains[input - 1]
   end
 
   def choose_route
-    puts "Выберите маршрут:"
+    puts 'Выберите маршрут:'
     print_routes
     choice = gets.chomp.to_i
-    route = routes[choice]
-    route
+    routes[choice]
   end
 
   def choose_station
-    puts "Выберите станцию:"
+    puts 'Выберите станцию:'
     print_stations
     choice = gets.chomp.to_i
-    station = stations[choice]
-    station
+    stations[choice]
   end
 
-  def add_wagon()
+  def add_wagon
     train = choose_train
-    puts "Выберите вагон:"
-    puts "1. Пассажирский"
-    puts "2. Грузовой"
+    puts 'Выберите вагон:'
+    puts '1. Пассажирский'
+    puts '2. Грузовой'
     type = gets.chomp.to_i
 
     case type
-      when 1
-        puts "Сколько мест в вагоне?"
-        seats = gets.chomp.to_i
-        wagon = PassengerWagon.new(seats)
-      when 2
-        puts "Укажите объем в вагоне"
-        volume = gets.chomp.to_i
-        wagon = CargoWagon.new(volume)
+    when 1
+      puts 'Сколько мест в вагоне?'
+      seats = gets.chomp.to_i
+      wagon = PassengerWagon.new(seats)
+    when 2
+      puts 'Укажите объем в вагоне'
+      volume = gets.chomp.to_i
+      wagon = CargoWagon.new(volume)
     end
 
     train.add_wagon(wagon)
@@ -321,9 +310,9 @@ class App
 
   def move_train
     train = choose_train
-    puts "Выберите направление:"
-    puts "1. Вперед"
-    puts "2. Назад"
+    puts 'Выберите направление:'
+    puts '1. Вперед'
+    puts '2. Назад'
     direction = gets.chomp.to_i
     train.go_next_station if direction == 1
     train.go_previous_station if direction == 2
@@ -339,10 +328,10 @@ class App
 
   def print_train_wagons
     train = choose_train
-    
+
     puts "Список вагонов поезда ##{train.number}(#{train.type}):"
     if train.wagons.empty?
-      puts "Вагонов нет"
+      puts 'Вагонов нет'
       return
     end
     train.wagon_block do |wagon|
@@ -364,15 +353,15 @@ class App
 
   def use_wagon
     train = print_train_wagons
-    puts "Выберите вагон:"
+    puts 'Выберите вагон:'
     choice = gets.chomp
     wagon = train.wagons.find { |w| w.number == choice }
     case wagon
     when PassengerWagon
-      puts "Сколько мест вы хотите занять?"
+      puts 'Сколько мест вы хотите занять?'
       wagon.take_seat(gets.chomp.to_i)
     when CargoWagon
-      puts "Сколько объема вы хотите занять?"
+      puts 'Сколько объема вы хотите занять?'
       wagon.take_volume(gets.chomp.to_i)
     end
   end

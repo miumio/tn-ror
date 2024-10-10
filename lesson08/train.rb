@@ -37,7 +37,7 @@ class Train
 
   def add_wagon(wagon)
     if @speed > 0
-      puts "Ошибка! Остановите поезд перед добавлением вагона"
+      puts 'Ошибка! Остановите поезд перед добавлением вагона'
       return
     end
 
@@ -46,12 +46,12 @@ class Train
 
   def remove_wagon
     if @speed > 0
-      puts "Ошибка! Остановите поезд перед удалением вагона"
+      puts 'Ошибка! Остановите поезд перед удалением вагона'
       return
     end
 
     if @wagons.empty?
-      puts "Ошибка! Вагонов нет"
+      puts 'Ошибка! Вагонов нет'
       return
     end
 
@@ -73,6 +73,7 @@ class Train
 
   def previous_station
     return if current_station_index == 0
+
     route.stations[current_station_index - 1]
   end
 
@@ -89,16 +90,16 @@ class Train
   end
 
   private
+
   @@count = 0
-  @number
 
   def validate!
-    raise "Неверный формат номера поезда" if number !~ NUMBER_REGEXP
+    raise 'Неверный формат номера поезда' if number !~ NUMBER_REGEXP
   end
-  
+
   def wagon_is_valid?(wagon)
-    wagon.type == self.type
+    wagon.type == type
   end
-  
+
   attr_reader :route, :current_station_index
 end

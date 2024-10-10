@@ -2,7 +2,7 @@ module Validate
   def validate?
     validate!
     true
-  rescue
+  rescue StandardError
     false
   end
 end

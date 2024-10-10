@@ -1,8 +1,9 @@
-require_relative "wagon"
+require_relative 'wagon'
 require_relative 'train_types'
 
 class CargoWagon < Wagon
-  attr_reader :volume , :used_volume
+  attr_reader :volume, :used_volume
+
   DEFAULT_VOLUME = 100
 
   def initialize(volume = DEFAULT_VOLUME)
@@ -15,7 +16,7 @@ class CargoWagon < Wagon
     @used_volume += volume
   end
 
-  def free_volume()
+  def free_volume
     @volume - @used_volume
   end
 end

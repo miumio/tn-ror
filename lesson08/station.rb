@@ -39,6 +39,6 @@ class Station
   protected
 
   def validate!
-    raise "Название станции должно содержать больше двух символов" if name.length < 2
+    raise 'Название станции должно содержать больше двух символов' if name.length < 2
   end
 end

@@ -1,4 +1,4 @@
-require_relative "train"
+require_relative 'train'
 require_relative 'train_types'
 
 class CargoTrain < Train

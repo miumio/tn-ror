@@ -18,6 +18,7 @@ class Route
   def add_station(point)
     return if @stations.detect { |station| station.name == point.name }
     return if @points.detect { |station| station.name == point.name }
+
     @points << point
   end
 
@@ -36,6 +37,6 @@ class Route
   private
 
   def validate!
-    raise "Начальная станция не может быть конечной" if @start == @finish
+    raise 'Начальная станция не может быть конечной' if @start == @finish
   end
 end
