@@ -7,6 +7,7 @@ require_relative 'wagon'
 require_relative 'wagon_passenger'
 require_relative 'wagon_cargo'
 
+# rubocop:disable Metrics/ClassLength
 class App
   attr_reader :trains, :routes, :stations
 
@@ -71,7 +72,7 @@ class App
       name: 'Выход',
       action: :exit
     }
-  ]
+  ].freeze
 
   def initialize
     @wagons = []
@@ -215,7 +216,7 @@ class App
   def print_routes
     routes.each_with_index do |route, i|
       puts "#{i}: "
-      puts "#{route.print}"
+      puts route.print
     end
   end
 
@@ -366,3 +367,4 @@ class App
     end
   end
 end
+# rubocop:enable Metrics/ClassLength

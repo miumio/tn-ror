@@ -1,6 +1,7 @@
 require_relative 'wagon'
 require_relative 'train_types'
 
+# frozen_string_literal: false
 class PassengerWagon < Wagon
   attr_reader :used_seats, :seats
 
@@ -13,7 +14,7 @@ class PassengerWagon < Wagon
   end
 
   def take_seat(count = 1)
-    return if @seats == 0
+    return if @seats.zero?
 
     @used_seats += count
   end

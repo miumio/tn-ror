@@ -6,16 +6,16 @@ class Station
   include Validate
   attr_reader :name, :trains
 
-  @@all = []
+  @all = []
 
   def self.all
-    @@all
+    @all
   end
 
   def initialize(name)
     @name = name
     @trains = []
-    @@all << self
+    @all << self
     validate!
     register_instance
   end
@@ -32,8 +32,8 @@ class Station
     @trains.select { |train| train.type == type }
   end
 
-  def trains_block(&b)
-    @trains.each(&b)
+  def trains_block(&block)
+    @trains.each(&block)
   end
 
   protected

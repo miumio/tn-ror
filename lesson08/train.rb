@@ -9,12 +9,12 @@ class Train
 
   NUMBER_REGEXP = /^[a-zа-я0-9]{3}-?[a-zа-я0-9]{2}$/
 
-  attr_reader :number, :type, :wagons, :speed, :current_station, :previous_station, :next_station
+  attr_reader :number, :type, :wagons, :speed
 
-  @@all = []
+  @all = []
 
   def self.find(number)
-    @@all.find { |train| train.number == number }
+    @all.find { |train| train.number == number }
   end
 
   def initialize(type, number)
@@ -23,7 +23,7 @@ class Train
     @speed = 0
     @wagons = []
     validate!
-    @@all << self
+    @all << self
     register_instance
   end
 
@@ -36,7 +36,7 @@ class Train
   end
 
   def add_wagon(wagon)
-    if @speed > 0
+    if @speed.positive?
       puts 'Ошибка! Остановите поезд перед добавлением вагона'
       return
     end
@@ -45,7 +45,7 @@ class Train
   end
 
   def remove_wagon
-    if @speed > 0
+    if @speed.positive?
       puts 'Ошибка! Остановите поезд перед удалением вагона'
       return
     end
@@ -72,7 +72,7 @@ class Train
   end
 
   def previous_station
-    return if current_station_index == 0
+    return if current_station_index.zero?
 
     route.stations[current_station_index - 1]
   end
@@ -85,13 +85,11 @@ class Train
     @current_station_index -= 1 if previous_station
   end
 
-  def wagon_block(&b)
-    @wagons.each(&b)
+  def wagon_block(&block)
+    @wagons.each(&block)
   end
 
   private
-
-  @@count = 0
 
   def validate!
     raise 'Неверный формат номера поезда' if number !~ NUMBER_REGEXP
