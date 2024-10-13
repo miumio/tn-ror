@@ -112,12 +112,12 @@ class App
   end
 
   def seed_stations
-    station_names = [
-      'Санкт-Петербург', 'Москва', 'Новосибирск', 'Казань', 'Eкатеринбург', 'Омск', 'Владивосток',
-      'Волгоград', 'Краснодар', 'Сочи', 'Ростов-на-Дону', 'Уфа', 'Тюмень', 'Нижний Новгород',
-      'Красноярск', 'Челябинск', 'Оренбург', 'Самара', 'Калининград', 'Воронеж', 'Белгород',
-      'Томск', 'Кемерово', 'Саратов'
-    ]
+    station_names = %w(
+      Санкт-Петербург, Москва, Новосибирск, Казань, Eкатеринбург, Омск, Владивосток,
+      Волгоград, Краснодар, Сочи, Ростов-на-Дону, Уфа, Тюмень, Нижний Новгород,
+      Красноярск, Челябинск, Оренбург, Самара, Калининград, Воронеж, Белгород,
+      Томск, Кемерово, Саратов
+    )
 
     station_names.each do |name|
       stations << Station.new(name)
@@ -265,7 +265,6 @@ class App
     puts 'Выберите поезд:'
     print_trains
     input = gets.to_i
-    # train = trains.find { |train| train.number == input }
     trains[input - 1]
   end
 
@@ -338,18 +337,26 @@ class App
     train.wagon_block do |wagon|
       case wagon
       when PassengerWagon
-        puts "    Тип вагона №#{wagon.number}: пассажирский"
-        puts "         Общее Количество мест: #{wagon.seats}"
-        puts "         Количество свободных мест: #{wagon.free_seats}"
-        puts "         Количество занятых мест: #{wagon.used_seats}"
+        print_passenger_info(wagon)
       when CargoWagon
-        puts "    Тип вагона №#{wagon.number}: грузовой"
-        puts "         Общий объем вагона: #{wagon.volume}"
-        puts "         Свободный объем вагона: #{wagon.free_volume}"
-        puts "         Занятый объем вагона: #{wagon.used_volume}"
+        print_cargo_info(wagon)
       end
     end
     train
+  end
+
+  def print_passenger_info(wagon)
+    puts "    Тип вагона №#{wagon.number}: пассажирский"
+    puts "         Общее Количество мест: #{wagon.seats}"
+    puts "         Количество свободных мест: #{wagon.free_seats}"
+    puts "         Количество занятых мест: #{wagon.used_seats}"
+  end
+
+  def print_cargo_info(wagon)
+    puts "    Тип вагона №#{wagon.number}: пассажирский"
+    puts "         Общее Количество мест: #{wagon.seats}"
+    puts "         Количество свободных мест: #{wagon.free_seats}"
+    puts "         Количество занятых мест: #{wagon.used_seats}"
   end
 
   def use_wagon

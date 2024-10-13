@@ -6,22 +6,12 @@ class Station
   include Validate
   attr_reader :name, :trains
 
-  @all = []
-
-  def self.all
-    @all
-  end
 
   def initialize(name)
     @name = name
     @trains = []
-    @all << self
     validate!
     register_instance
-  end
-
-  def train(train)
-    @trains << train
   end
 
   def send_train(train)

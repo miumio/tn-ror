@@ -23,7 +23,6 @@ class Train
     @speed = 0
     @wagons = []
     validate!
-    @all << self
     register_instance
   end
 
