@@ -17,13 +17,11 @@ module Accessors
     end
   end
 
-  def strong_attr_accessor(name, cl)
+  def strong_attr_accessor(name, class_name)
     define_method(name) { instance_variable_get("@#{name}") }
 
     define_method("#{name}=") do |value|
-      unless value.is_a?(cl)
-        raise TypeError, "Неверный тип данных: ожидался #{cl}, получен #{value.class}"
-      end
+      raise TypeError, "#{value.class} is not a #{class_name}" unless value.is_a?(class_name)
 
       instance_variable_set("@#{name}", value)
     end
