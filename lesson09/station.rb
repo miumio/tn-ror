@@ -1,11 +1,15 @@
 require './modules/instance_counter'
 require './modules/validate'
+require './modules/accessors'
 
 class Station
   include InstanceCounter
   include Validate
-  attr_reader :name, :trains
+  extend Accessors
 
+  attr_reader :name, :trains
+  attr_accessor_with_history :name, :trains
+  strong_attr_accessor :name, String
 
   def initialize(name)
     @name = name

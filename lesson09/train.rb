@@ -1,15 +1,21 @@
 require './modules/manufacturer'
 require './modules/instance_counter'
 require './modules/validate'
+require './modules/accessors'
 
 class Train
   include Manufacturer
   include InstanceCounter
   include Validate
+  extend Accessors
 
   NUMBER_REGEXP = /^[a-zа-я0-9]{3}-?[a-zа-я0-9]{2}$/
 
-  attr_reader :number, :type, :wagons, :speed
+  attr_reader :number, :type, :wagons
+  attr_accessor_with_history :route, :speed
+  strong_attr_accessor :current_station_index, Integer
+  strong_attr_accessor :speed, Integer
+  strong_attr_accessor :number, String
 
   @all = []
 
