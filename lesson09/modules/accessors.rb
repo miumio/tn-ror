@@ -1,6 +1,6 @@
 module Accessors
-  def attr_accessor_with_history(*names)
-    names.each do |name|
+  def attr_accessor_with_history(*names_arr)
+    names_arr.each do |name|
       define_method(name) { instance_variable_get("@#{name}") }
 
       define_method("#{name}=") do |value|
