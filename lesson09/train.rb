@@ -1,12 +1,12 @@
 require './modules/manufacturer'
 require './modules/instance_counter'
-require './modules/validate'
+require './modules/validation'
 require './modules/accessors'
 
 class Train
   include Manufacturer
   include InstanceCounter
-  include Validate
+  include Validation
   extend Accessors
 
   NUMBER_REGEXP = /^[a-zа-я0-9]{3}-?[a-zа-я0-9]{2}$/
@@ -17,6 +17,8 @@ class Train
   strong_attr_accessor :speed, Integer
   strong_attr_accessor :number, String
 
+  validate :number, :format, NUMBER_REGEXP
+
   @all = []
 
   def self.find(number)
@@ -25,10 +27,10 @@ class Train
 
   def initialize(type, number)
     @number = number
+    validate!
     @type = type
     @speed = 0
     @wagons = []
-    validate!
     register_instance
   end
 
@@ -95,10 +97,6 @@ class Train
   end
 
   private
-
-  def validate!
-    raise 'Неверный формат номера поезда' if number !~ NUMBER_REGEXP
-  end
 
   def wagon_is_valid?(wagon)
     wagon.type == type
