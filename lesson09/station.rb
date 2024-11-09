@@ -1,15 +1,17 @@
 require './modules/instance_counter'
-require './modules/validate'
+require './modules/validation'
 require './modules/accessors'
 
 class Station
   include InstanceCounter
-  include Validate
+  include Validation
   extend Accessors
 
   attr_reader :name, :trains
   attr_accessor_with_history :name, :trains
   strong_attr_accessor :name, String
+
+  validate :name, :presence
 
   def initialize(name)
     @name = name
@@ -28,11 +30,5 @@ class Station
 
   def trains_block(&block)
     @trains.each(&block)
-  end
-
-  protected
-
-  def validate!
-    raise 'Название станции должно содержать больше двух символов' if name.length < 2
   end
 end
