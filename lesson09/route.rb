@@ -1,10 +1,13 @@
 require './modules/instance_counter'
-require './modules/validate'
+require './modules/validation'
 
 class Route
   include InstanceCounter
-  include Validate
+  include Validation
   attr_reader :stations
+
+  validate :start, :type, Station
+  validate :finish, :type, Station
 
   def initialize(start, finish)
     @start = start
@@ -20,10 +23,12 @@ class Route
     return if @points.detect { |station| station.name == point.name }
 
     @points << point
+    @stations = [@start, @points, @finish].flatten
   end
 
   def remove_station(point)
     @points.delete(point)
+    @stations = [@start, @points, @finish].flatten
   end
 
   def print
@@ -32,11 +37,5 @@ class Route
     else
       puts "#{@start.name} - #{@points.map(&:name).join(' - ')} - #{@finish.name}"
     end
-  end
-
-  private
-
-  def validate!
-    raise 'Начальная станция не может быть конечной' if @start == @finish
   end
 end
