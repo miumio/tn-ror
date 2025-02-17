@@ -7,9 +7,10 @@ class Player
   end
 
   def points
-    cards.each do |card|
-      puts card.to_s
-    end
+    10
+    # cards.each do |card|
+    #   puts card.to_s
+    # end
   end
 
   def take(card)
