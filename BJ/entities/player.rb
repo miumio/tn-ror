@@ -7,10 +7,11 @@ class Player
   end
 
   def points
-    10
-    # cards.each do |card|
-    #   puts card.to_s
-    # end
+    # todo
+    total = 0
+    @cards.each { |card| card.value.class == Symbol ? total += 10 : total += card.value}
+
+    total
   end
 
   def take(card)
@@ -18,6 +19,6 @@ class Player
   end
 
   def skip
-    puts "Игрок пропускает ход"
+    puts "skip"
   end
 end 
